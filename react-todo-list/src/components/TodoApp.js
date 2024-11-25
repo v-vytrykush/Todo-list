@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './TodoApp.css';
 
 const TodoApp = () => {
@@ -23,9 +23,26 @@ const TodoApp = () => {
     }
   };
 
+  // Load tasks from localStorage on initial render
+  useEffect(() => {
+    const storedTasks = JSON.parse(localStorage.getItem("tasks"));
+    if (storedTasks) {
+      setTasks(storedTasks);
+    }
+  }, []);
+
+  // Save tasks to localStorage whenever they change
+  useEffect(() => {
+    if (tasks.length > 0) {
+      localStorage.setItem("tasks", JSON.stringify(tasks));
+    }
+  }, [tasks]);
+
+  const [priority, setPriority] = useState("Low");
+
   const addTask = () => {
     if (input.trim() !== "") {
-      setTasks([...tasks, { text: input, completed: false }]);
+      setTasks([...tasks, { text: input, completed: false, priority }]);
       setInput("");
     }
   };
@@ -37,8 +54,16 @@ const TodoApp = () => {
   };
 
   const deleteTask = (index) => {
-    setTasks(tasks.filter((_, i) => i !== index));
-  };
+    const newTasks = tasks.map((task, i) =>
+        i === index ? { ...task, removing: true } : task
+    );
+    setTasks(newTasks);
+
+    // Add a delay to allow animation to complete
+    setTimeout(() => {
+        setTasks((prev) => prev.filter((_, i) => i !== index));
+    }, 400);
+};
 
   return (
     <div className="todo-container">
@@ -50,8 +75,14 @@ const TodoApp = () => {
           onChange={(e) => setInput(e.target.value)}
           placeholder="Add a new task..."
         />
+        <select value={priority} onChange={(e) => setPriority(e.target.value)}>
+          <option value="Low">Low</option>
+          <option value="Medium">Medium</option>
+          <option value="High">High</option>
+        </select>
         <button onClick={addTask}>Add</button>
       </div>
+
       <ul className="todo-list">
         {tasks.map((task, index) => (
           <li key={index} className={task.completed ? "completed" : ""}>
@@ -67,6 +98,7 @@ const TodoApp = () => {
               </>
             ) : (
               <>
+                <span className="task-priority">[{task.priority}]</span>
                 <span onClick={() => toggleTask(index)}>{task.text}</span>
                 <button onClick={() => startEdit(index)}>Edit</button>
                 <button onClick={() => deleteTask(index)}>Delete</button>
@@ -74,7 +106,6 @@ const TodoApp = () => {
             )}
           </li>
         ))}
-
       </ul>
     </div>
   );

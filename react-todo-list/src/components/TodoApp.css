@@ -1,6 +1,7 @@
+/* Body Styling */
 body {
-  font-family: Arial, sans-serif;
-  background-color: #f3f4f6;
+  font-family: 'Arial', sans-serif;
+  background-color: #f0f2f5;
   margin: 0;
   padding: 0;
   display: flex;
@@ -9,31 +10,61 @@ body {
   height: 100vh;
 }
 
+/* Container Styling */
 .todo-container {
-  background: white;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
   padding: 20px;
   width: 100%;
-  max-width: 400px;
+  max-width: 500px;
+  animation: fadeIn 0.5s ease-in-out;
 }
 
+/* Title Styling */
 h1 {
   text-align: center;
   color: #333;
+  margin-bottom: 20px;
+  font-size: 24px;
+  letter-spacing: 1px;
 }
 
+/* Input Section Styling */
 .todo-input {
   display: flex;
   gap: 10px;
   margin-bottom: 20px;
+  flex-wrap: wrap;
 }
 
 .todo-input input {
   flex: 1;
   padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 16px;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.todo-input input:focus {
+  border-color: #4caf50;
+}
+
+.todo-input select {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 16px;
+  outline: none;
+  cursor: pointer;
+  background-color: white;
+  transition: all 0.3s ease;
+}
+
+.todo-input select:hover {
+  border-color: #4caf50;
 }
 
 .todo-input button {
@@ -41,14 +72,17 @@ h1 {
   background-color: #4caf50;
   color: white;
   border: none;
-  border-radius: 4px;
+  border-radius: 5px;
+  font-size: 16px;
   cursor: pointer;
+  transition: all 0.3s ease;
 }
 
 .todo-input button:hover {
   background-color: #45a049;
 }
 
+/* Task List Styling */
 .todo-list {
   list-style: none;
   padding: 0;
@@ -57,28 +91,122 @@ h1 {
 
 .todo-list li {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding: 10px;
+  justify-content: space-between;
+  padding: 15px;
   border: 1px solid #ddd;
-  border-radius: 4px;
+  border-radius: 5px;
   margin-bottom: 10px;
+  background-color: white;
+  animation: slideIn 0.4s ease-in-out;
+  transition: all 0.3s ease;
+}
+
+.todo-list li:hover {
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.todo-list li.completed {
+  background-color: #e0ffe0;
+  color: #999;
 }
 
 .todo-list li.completed span {
   text-decoration: line-through;
-  color: #999;
 }
 
+/* Priority Styling */
+.task-priority {
+  font-weight: bold;
+  margin-right: 10px;
+  padding: 5px 10px;
+  border-radius: 5px;
+  color: black;
+}
+
+.task-priority[data-priority="Low"] {
+  background-color: #4caf50;
+}
+
+.task-priority[data-priority="Medium"] {
+  background-color: #ffc107;
+}
+
+.task-priority[data-priority="High"] {
+  background-color: #f44336;
+}
+
+/* Buttons Styling */
 .todo-list button {
   background-color: #e74c3c;
   color: white;
   border: none;
-  border-radius: 4px;
+  border-radius: 5px;
   padding: 5px 10px;
   cursor: pointer;
+  font-size: 14px;
+  transition: transform 0.2s ease-in-out;
 }
 
 .todo-list button:hover {
   background-color: #c0392b;
+  transform: scale(1.1);
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+      opacity: 0;
+      transform: scale(0.95);
+  }
+  to {
+      opacity: 1;
+      transform: scale(1);
+  }
+}
+
+@keyframes slideIn {
+  from {
+      opacity: 0;
+      transform: translateY(-10px);
+  }
+  to {
+      opacity: 1;
+      transform: translateY(0);
+  }
+}
+
+
+/* Custom Select Styling */
+.todo-input select {
+  -webkit-appearance: none; /* Removes default iOS styling */
+  -moz-appearance: none; /* Removes default Firefox styling */
+  appearance: none; /* Removes default browser styling */
+  padding: 10px 40px 10px 10px; /* Space for the dropdown icon */
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 16px;
+  outline: none;
+  cursor: pointer;
+  background-color: white;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 20px;
+  transition: border-color 0.3s ease;
+}
+
+/* Hover and Focus States */
+.todo-input select:hover {
+  border-color: #4caf50;
+}
+
+.todo-input select:focus {
+  border-color: #4caf50;
+  box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.2);
+}
+
+/* Add a fallback for browsers that don't support appearance */
+.todo-input select::-ms-expand {
+  display: none; /* Hide the default dropdown arrow in IE/Edge */
 }
